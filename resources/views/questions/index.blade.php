@@ -11,7 +11,13 @@
                     @foreach($questions as $question)
                         <div class="media">
                             <div class="media-body">
-                                <h3 class="mt-0">{{$question->title}}</h3>
+
+                                <h2 class="mt-0"><a href="{{$question->url}}">{{$question->title}}</a></h2>
+                                <p class="lead">
+                                    Asked By:
+                                    <a href="{{$question->user->url}}"><i class="glyphicon glyphicon-user"></i> {{$question->user->name}}</a>
+                                    <small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{$question->created_at->diffForHumans()}}</small>
+                                </p>
                                 <p>{{str_limit($question->body,200)}}</p>
                             </div>
                         </div>
