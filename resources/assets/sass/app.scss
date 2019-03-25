@@ -7,3 +7,17 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+.counters{
+  margin-right: 30px;
+  font-size: 12px;
+  text-align: center;
+  strong{
+    display: block;
+    font-size: 14px;
+  }
+  .vote .answer .view {
+    width: 60px;
+    height: 60px;
+  }
+}

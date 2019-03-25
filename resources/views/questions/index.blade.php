@@ -9,7 +9,26 @@
 
                 <div class="panel-body">
                     @foreach($questions as $question)
+
                         <div class="media">
+                            <div class="d-flex flex-column counters ">
+                                <div class="vote">
+                                    <strong>{{$question->votes}}</strong> {{str_plural('vote',$question->votes)}}
+                                </div>
+
+                                @if($question->answers==0)
+                                <div class="answer notanswered">
+                                    <strong>{{$question->answers}}</strong> Not Answered Yet
+                                </div>
+                                    @else
+                                    <div class="answer answered">
+                                        <strong>{{$question->answers}}</strong> {{str_plural('answer',$question->answers)}}
+                                    </div>
+                                @endif
+                                <div class="view">
+                                   <strong> {{$question->views }}</strong>{{str_plural('view',$question->answers)}}
+                                </div>
+                            </div>
                             <div class="media-body">
 
                                 <h2 class="mt-0"><a href="{{$question->url}}">{{$question->title}}</a></h2>
