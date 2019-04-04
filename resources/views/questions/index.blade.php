@@ -27,7 +27,7 @@
 
                                 @if($question->answers==0)
                                 <div class="answer notanswered">
-                                    <strong>{{$question->answers}}</strong> Not Answered Yet
+                                    <strong>{{$question->answers}}</strong> Not <br> Answered
                                 </div>
                                     @else
                                     <div class="answer answered">
