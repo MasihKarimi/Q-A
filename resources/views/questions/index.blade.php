@@ -4,6 +4,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
+            @if(session()->has('success'))
+                <div class="alert alert-danger" id="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+
+                   <p><strong>Alert: </strong> {{session()->get('success')}}</p>
+                </div>
+            @endif
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="d-flex align-items-center">
@@ -42,7 +49,12 @@
                                 <div class="d-flex align-items-center">
                                     <h2 class="mt-0"><a href="{{$question->url}}">{{$question->title}}</a></h2>
                                     <div class="ml-auto">
-                                        <a href="{{route('questions.edit',$question->id)}}" class="btn btn-link">Edit Question</a>
+                                        <a href="{{route('questions.edit',$question->id)}}" class="btn btn-success btn-sm">Edit</a>
+                                        <form action="{{route('questions.destroy',$question->id)}}" method="post" role="form" id="delete-form">
+                                            @method('Delete')
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="confirm('Are you sure')">Delete</button>
+                                        </form>
                                     </div>
                                 </div>
 
