@@ -62,9 +62,10 @@ class QuestionController extends Controller
     }
 
 
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $question = Question::where('slug',$slug)->first();
+        return view('questions.show',compact('question'));
     }
 
     /**

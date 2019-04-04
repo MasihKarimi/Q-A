@@ -47,7 +47,7 @@
                             </div>
                             <div class="media-body">
                                 <div class="d-flex align-items-center">
-                                    <h2 class="mt-0"><a href="{{$question->url}}">{{$question->title}}</a></h2>
+                                    <h2 class="mt-0"><a href="{{route('show',$question->slug)}}">{{$question->title}}</a></h2>
                                     <div class="ml-auto">
                                         <a href="{{route('questions.edit',$question->id)}}" class="btn btn-success btn-sm">Edit</a>
                                         <form action="{{route('questions.destroy',$question->id)}}" method="post" role="form" id="delete-form">
