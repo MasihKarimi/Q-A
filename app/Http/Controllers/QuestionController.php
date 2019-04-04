@@ -43,7 +43,7 @@ class QuestionController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('questions/create')
+            return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -74,19 +74,28 @@ class QuestionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $question = Question::findOrFail($id);
+        return view('questions.create',compact('question'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:questions|max:255',
+            'body' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return redirect('questions/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+       $question = Question::findOrFail($id);
+        $question->title = $request->input('title');
+        $question->body = $request->input('body');
+        $question->user_id = Auth::id();
+        $question->save();
+        return redirect('questions');
     }
 
     /**
