@@ -13,7 +13,7 @@ class QuestionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['expect'=> ['index','show']]);
     }
     /**
      * Display a listing of the resource.
@@ -69,20 +69,23 @@ class QuestionController extends Controller
         return view('questions.show',compact('question'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
+        //policies
         $question = Question::findOrFail($id);
-        if (Gate::allows('update-question',$question)){
+        $this->authorize('update',$question);
         return view('questions.create',compact('question'));
-        }
-        Session::flash('access','Sorry you can not edit this question');
-        return redirect()->back();
+
+
+        //Gates
+
+//        $question = Question::findOrFail($id);
+//        if (Gate::allows('update-question',$question)){
+//        return view('questions.create',compact('question'));
+//        }
+//        Session::flash('access','Sorry you can not edit this question');
+//        return redirect()->back();
 
 
     }
@@ -110,14 +113,20 @@ class QuestionController extends Controller
 
     public function destroy($id)
     {
+        // policies
         $question = Question::findOrFail($id);
-        if (Gate::allows('delete-question',$question)){
-            $question->delete();
-            Session::flash('success','Question Successfully Deleted');
-            return redirect()->back();
-        }
-        Session::flash('access','Sorry you can not edit this question');
+        $this->authorize('delete',$question);
+        $question->delete();
+        Session::flash('success','Question Successfully Deleted');
         return redirect()->back();
+        //Gates
+//        if (Gate::allows('delete-question',$question)){
+//            $question->delete();
+//            Session::flash('success','Question Successfully Deleted');
+//            return redirect()->back();
+//        }
+//        Session::flash('access','Sorry you can not edit this question');
+//        return redirect()->back();
 
 
     }
