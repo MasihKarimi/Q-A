@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -77,7 +78,13 @@ class QuestionController extends Controller
     public function edit($id)
     {
         $question = Question::findOrFail($id);
+        if (Gate::allows('update-question',$question)){
         return view('questions.create',compact('question'));
+        }
+        Session::flash('access','Sorry you can not edit this question');
+        return redirect()->back();
+
+
     }
 
 
@@ -100,17 +107,18 @@ class QuestionController extends Controller
         return redirect('questions');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         $question = Question::findOrFail($id);
-        $question->delete();
-        Session::flash('success','Question Successfully Deleted');
+        if (Gate::allows('delete-question',$question)){
+            $question->delete();
+            Session::flash('success','Question Successfully Deleted');
+            return redirect()->back();
+        }
+        Session::flash('access','Sorry you can not edit this question');
         return redirect()->back();
+
+
     }
 }
